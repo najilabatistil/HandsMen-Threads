@@ -1,0 +1,12 @@
+trigger LoyaltyStatusUpdateTrigger on HandsMen_Customer__c (after update) {
+	Set<Id> custIds = new Set<Id>();
+
+    for (HandsMen_Customer__c c : Trigger.new) {
+        HandsMen_Customer__c oldC = Trigger.oldMap.get(c.Id);
+        if (c.Total_Purchases__c != oldC.Total_Purchases__c) {
+            custIds.add(c.Id);
+        }
+    }
+
+    LoyaltyStatusHandler.updateLoyaltyStatus(custIds);
+}

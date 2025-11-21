@@ -1,0 +1,23 @@
+public class LoyaltyStatusHandler {
+    public static void updateLoyaltyStatus(Set<Id> customerIds) {
+        if (customerIds.isEmpty()) return;
+
+        List<HandsMen_Customer__c> customers = [
+            SELECT Id, Total_Purchases__c, Loyalty_Status__c
+            FROM HandsMen_Customer__c
+            WHERE Id IN :customerIds
+        ];
+
+        for (HandsMen_Customer__c cust : customers) {
+            if (cust.Total_Purchases__c >= 1000) {
+                cust.Loyalty_Status__c = 'Gold';
+            } else if (cust.Total_Purchases__c < 500) {
+                cust.Loyalty_Status__c = 'Bronze';
+            } else {
+                cust.Loyalty_Status__c = 'Silver';
+            }
+        }
+
+        update customers;
+    }
+}

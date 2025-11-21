@@ -1,0 +1,5 @@
+trigger OrderTotalTrigger on HandsMen_Order__c (before insert, before update) {
+    if (Trigger.isBefore) {
+        OrderTotalHandler.updateOrderTotal(Trigger.new);
+    }
+}

@@ -1,0 +1,19 @@
+public class OrderTotalHandler {
+    public static void updateOrderTotal(List<HandsMen_Order__c> orders) {
+        Set<Id> productIds = new Set<Id>();
+        for (HandsMen_Order__c order : orders) {
+            if (order.HandsMen_Product__c != null) productIds.add(order.HandsMen_Product__c);
+        }
+        
+        Map<Id, HandsMen_Product__c> productMap = new Map<Id, HandsMen_Product__c>(
+            [SELECT Id, Price__c FROM HandsMen_Product__c WHERE Id IN :productIds]
+        );
+        
+        for (HandsMen_Order__c order : orders) {
+            if (order.HandsMen_Product__c != null && productMap.containsKey(order.HandsMen_Product__c) 
+                && order.Quantity__c != null) {
+                order.Total_Amount__c = order.Quantity__c * productMap.get(order.HandsMen_Product__c).Price__c;
+            }
+        }
+    }
+}
