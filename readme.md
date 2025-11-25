@@ -1,4 +1,4 @@
-# HandsMen Threads Documentation
+# HandsMen Threads Salesforce CRM
 
 This repository contains the complete project documentation for the HandsMen Threads Salesforce CRM. 
 
