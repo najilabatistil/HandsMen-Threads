@@ -1,0 +1,18 @@
+@isTest
+public class LoyaltyStatusTest {
+    @isTest
+    static void testLoyaltyStatusTrigger() {
+        HandsMen_Customer__c cust = new HandsMen_Customer__c(
+            Name = 'Test Customer',
+            Total_Purchases__c = 1200,
+            Email__c = 'test@gmail.com'
+        );
+        insert cust;
+
+        cust.Total_Purchases__c = 1201;
+        update cust;
+
+        cust = [SELECT Loyalty_Status__c FROM HandsMen_Customer__c WHERE Id = :cust.Id];
+        System.assertEquals('Gold', cust.Loyalty_Status__c);
+    }
+}
